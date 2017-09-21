@@ -68,17 +68,12 @@ install_cmd="./bin/magento setup:install \
     --admin-user=${setupOptions[admin_user]} \
     --admin-password=${setupOptions[admin_password]} \
     --cleanup-database \
-    --use-rewrites=1"
-
-# Configure Rabbit MQ
-if [[ -f "${MAGENTO_ROOT}/LICENSE_EE.txt" ]]; then
-    install_cmd="${install_cmd} \
+    --use-rewrites=1 \
     --amqp-host=${setupOptions[amqp_host]} \
     --amqp-port=${setupOptions[amqp_port]} \
     --amqp-user=${setupOptions[amqp_user]} \
     --amqp-virtualhost=${setupOptions[amqp_virtualhost]} \
     --amqp-password=${setupOptions[amqp_password]}"
-fi
 
 sudo chmod +x bin/magento
 status "${install_cmd}"
@@ -103,7 +98,6 @@ if [[ ${is_windows_host} == 1 ]] || [[ ${use_nfs} == 0 ]]; then
     sudo chown -R vagrant:vagrant ${MAGENTO_ROOT}
 fi
 
-bash generate_sample_data
 bash configure_search_engine
 bash change_magento_config_for_functional_tests
 bash update_magento_config 'admin/security/session_lifetime' '86400'
@@ -112,7 +106,6 @@ status "Checking if Magento frontend is accessible at '${setupOptions[base_url]}
 magento_home_page_content="$(curl -sL ${setupOptions[base_url]})"
 pattern="All rights reserved."
 if [[ ${magento_home_page_content} =~ ${pattern} ]]; then
-
     bash warm_up_cache
 
     status "Generating XSD references for PHP Storm"

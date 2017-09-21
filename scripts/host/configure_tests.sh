@@ -7,7 +7,7 @@ source "${vagrant_dir}/scripts/output_functions.sh"
 status "Creating configuration for Magento Tests"
 incrementNestingLevel
 
-magento_tests_root="${vagrant_dir}/magento2ce/dev/tests"
+magento_tests_root="${vagrant_dir}/magento/dev/tests"
 magento_host_name="$(bash "${vagrant_dir}/scripts/get_config_value.sh" "magento_host_name")"
 magento_admin_frontname="$(bash "${vagrant_dir}/scripts/get_config_value.sh" "magento_admin_frontname")"
 magento_admin_user="$(bash "${vagrant_dir}/scripts/get_config_value.sh" "magento_admin_user")"

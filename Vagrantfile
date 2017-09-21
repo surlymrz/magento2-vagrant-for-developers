@@ -36,7 +36,7 @@ guest_cpus = config_data['guest']['cpus']
 use_nfs_for_synced_folders = !OS.is_windows && (config_data['guest']['use_nfs'] == 1)
 
 host_vagrant_dir = Dir.pwd + ''
-host_magento_dir = host_vagrant_dir + '/magento2ce'
+host_magento_dir = host_vagrant_dir + '/magento'
 
 VAGRANT_API_VERSION = 2
 Vagrant.configure(VAGRANT_API_VERSION) do |config|
@@ -46,6 +46,7 @@ Vagrant.configure(VAGRANT_API_VERSION) do |config|
     config.vm.provider "virtualbox" do |vb|
         vb.memory = guest_memory
         vb.cpus = guest_cpus
+        vb.customize ["modifyvm", :id, "--ioapic", "on"]
         # Uncomment option below to avoid issues with VirtualBox on Windows 10
         # vb.gui=true
     end
@@ -59,7 +60,7 @@ Vagrant.configure(VAGRANT_API_VERSION) do |config|
         guest_magento_dir = host_magento_dir
         config.vm.synced_folder host_magento_dir, guest_magento_dir, type: "nfs", create: true
     else
-        guest_magento_dir = '/var/www/magento2ce'
+        guest_magento_dir = '/var/www/magento'
         config.vm.synced_folder host_magento_dir + '/var', guest_magento_dir + '/var', create: true
         config.vm.synced_folder host_magento_dir + '/generated', guest_magento_dir + '/generated', create: true
         config.vm.synced_folder host_magento_dir + '/app/etc', guest_magento_dir + '/app/etc', create: true
@@ -101,9 +102,9 @@ Vagrant.configure(VAGRANT_API_VERSION) do |config|
     end
 
     if !use_nfs_for_synced_folders
-        config.vm.provision "host_compress_magento_code", type: "host_shell", inline: "tar cf scripts/host/magento2ce.tar magento2ce"
-        config.vm.provision "guest_uncompress_magento_code", type: "shell", inline: "mkdir -p /var/www && tar xf /vagrant/scripts/host/magento2ce.tar -C /var/www &>/dev/null"
-        config.vm.provision "guest_remove_compressed_code", type: "shell", inline: "rm -f /vagrant/scripts/host/magento2ce.tar"
+        config.vm.provision "host_compress_magento_code", type: "host_shell", inline: "tar cf scripts/host/magento.tar magento"
+        config.vm.provision "guest_uncompress_magento_code", type: "shell", inline: "mkdir -p /var/www && tar xf /vagrant/scripts/host/magento.tar -C /var/www &>/dev/null"
+        config.vm.provision "guest_remove_compressed_code", type: "shell", inline: "rm -f /vagrant/scripts/host/magento.tar"
     end
 
     # Host manager plugin configuration

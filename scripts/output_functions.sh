@@ -8,27 +8,32 @@ default_log="${vagrant_dir}/log/debug.log"
 log_file_path="${vagrant_dir}/scripts/.current_log_path"
 nesting_level_file="${vagrant_dir}/scripts/.current_nesting_level"
 
-function info() {
+function info()
+{
     echo "[$(formattedDate)]$(getIndentationByNesting "$@")$(getStyleByNesting "$@")${1}$(regular)$(sourceFile)$(regular)"
     log "[$(formattedDate)] INFO:$(getIndentationByNesting "$@")${1}$(sourceFile)]"
 }
 
-function status() {
+function status()
+{
     echo "[$(formattedDate)]$(getIndentationByNesting "$@")$(getStyleByNesting "$@")$(blue)${1}$(regular)$(sourceFile)$(regular)"
     log "[$(formattedDate)] STATUS:$(getIndentationByNesting "$@")${1}$(sourceFile)]"
 }
 
-function warning() {
+function warning()
+{
     echo "[$(formattedDate)]$(getIndentationByNesting "$@")$(getStyleByNesting "$@")$(yellow)${1}$(regular)$(sourceFile)$(regular)"
     log "[$(formattedDate)] WARNING:$(getIndentationByNesting "$@")${1}$(sourceFile)]"
 }
 
-function error() {
+function error()
+{
     echo "[$(formattedDate)]$(getIndentationByNesting "$@")$(getStyleByNesting "$@")$(red)${1}$(regular)$(sourceFile)$(regular)"
     log "[$(formattedDate)] ERROR:$(getIndentationByNesting "$@")${1}$(sourceFile)]"
 }
 
-function success() {
+function success()
+{
     echo "[$(formattedDate)]$(getIndentationByNesting "$@")$(getStyleByNesting "$@")$(green)${1}$(regular)$(sourceFile)$(regular)"
     log "[$(formattedDate)] SUCCESS:$(getIndentationByNesting "$@")${1}$(sourceFile)]"
 }
@@ -47,7 +52,8 @@ function filterVagrantOutput()
     fi
 }
 
-function log() {
+function log()
+{
     if [[ -n "${1}" ]]; then
         input="${1}"
     else
@@ -63,7 +69,8 @@ function log() {
     fi
 }
 
-function logError() {
+function logError()
+{
     if [[ -n "${1}" ]]; then
         input="${1}"
     else
@@ -75,7 +82,8 @@ function logError() {
     fi
 }
 
-function sourceFile() {
+function sourceFile()
+{
     if [[ ! ${BASH_SOURCE[2]} =~ functions\.sh ]]; then
         echo " $(grey)[${BASH_SOURCE[2]}]"
     else
@@ -83,7 +91,8 @@ function sourceFile() {
     fi
 }
 
-function formattedDate() {
+function formattedDate()
+{
     date "+%Y-%m-%d %H:%M:%S"
 }
 

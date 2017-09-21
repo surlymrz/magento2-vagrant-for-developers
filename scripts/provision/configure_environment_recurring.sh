@@ -68,7 +68,7 @@ update-rc.d unlink-configs defaults 04 2> >(log) > >(log)
 
 status "Upgrading existing environment"
 if [[ -f "${vagrant_dir}/.idea/deployment.xml" ]]; then
-    sed -i.back "s|magento2ce/var/generation|magento2ce/var|g" "${vagrant_dir}/.idea/deployment.xml"
+    sed -i.back "s|magento/var/generation|magento/var|g" "${vagrant_dir}/.idea/deployment.xml"
 fi
 
 status "Copying varnish vcl file"
